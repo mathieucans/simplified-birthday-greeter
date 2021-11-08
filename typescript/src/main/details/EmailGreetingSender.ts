@@ -3,9 +3,16 @@ import {EmailSender} from './EmailSender';
 import {GreetingSender} from '../GreetingSender';
 
 export class EmailGreetingSender implements GreetingSender {
+
+    constructor(
+        private emailSender: EmailSender
+    ) {
+    }
+
+
     greetingFor(friend: Friend) {
         const message = this.emailFor(friend);
-        new EmailSender()
+        this.emailSender
             .send(friend.getContact(), message);
     }
 
