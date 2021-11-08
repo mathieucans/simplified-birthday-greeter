@@ -1,7 +1,8 @@
 export class Friend {
     constructor(
         public readonly name:string,
-        public readonly contact:string
+        public readonly contact:string,
+        public readonly phoneNumber:string
     ) {
     }
 
@@ -11,5 +12,9 @@ export class Friend {
 
     public getContact() {
         return this.contact;
+    }
+
+    getPhoneNumber() {
+        return this.phoneNumber;
     }
 }

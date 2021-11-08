@@ -27,6 +27,17 @@ describe('BirthdayGreeter should', () => {
         expect(printStream).toEqual(content);
     });
 
+    test.skip('send sms to the friend born today', () => {
+        const aFriend = FriendBuilder.aFriend().build();
+        when(friendRepository.findFriendsBornOn(deepEqual(MonthDay.now())))
+            .thenReturn([aFriend]);
+
+        birthdayGreeter.sendGreetings();
+
+        const content = "To:" + aFriend.getPhoneNumber() + ", SMS: Happy birthday, my dear " + aFriend.getName() + "!";
+        expect(printStream).toEqual(content);
+    });
+
     test(`not send any greeting email when its nobody's birthday`, () => {
         when(friendRepository.findFriendsBornOn(deepEqual(MonthDay.now())))
             .thenReturn([]);

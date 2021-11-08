@@ -32,6 +32,6 @@ export class FriendBuilder {
     }
 
     public build() {
-        return new Friend(this.firstName, this.email);
+        return new Friend(this.firstName, this.email, '+33686898734');
     }
 }
