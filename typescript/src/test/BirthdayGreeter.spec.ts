@@ -1,15 +1,9 @@
-import {FriendBuilder} from "./FriendBuilder";
-import {deepEqual, instance, mock, when} from "ts-mockito";
-import {FriendRepository, MonthDay} from "../main/FriendRepository";
-import {BirthdayGreeter, EmailGreeting, GreetingSender} from '../main/BirthdayGreeter';
-import {Friend} from '../main/Friend';
-
-
-class SmsGreeting implements GreetingSender {
-    greetingFor(friend: Friend) {
-        console.log(`To:${friend.getPhoneNumber()}, SMS: Happy birthday, my dear ${friend.getName()}!`);
-    }
-}
+import {FriendBuilder} from './FriendBuilder';
+import {deepEqual, instance, mock, when} from 'ts-mockito';
+import {FriendRepository, MonthDay} from '../main/FriendRepository';
+import {BirthdayGreeter} from '../main/BirthdayGreeter';
+import {EmailGreetingSender} from '../main/details/EmailGreetingSender';
+import {SmsGreetingSender} from '../main/details/SmsGreetingSender';
 
 describe('BirthdayGreeter should', () => {
     let friendRepository: FriendRepository;
@@ -27,7 +21,7 @@ describe('BirthdayGreeter should', () => {
         when(friendRepository.findFriendsBornOn(deepEqual(MonthDay.now())))
             .thenReturn([aFriend]);
 
-        birthdayGreeter.sendGreetings(new EmailGreeting());
+        birthdayGreeter.sendGreetings(new EmailGreetingSender());
 
         const content = "To:" + aFriend.getContact() + ", Subject: Happy birthday!, Message: Happy birthday, dear " + aFriend.getName() + "!";
         expect(printStream).toEqual(content);
@@ -38,7 +32,7 @@ describe('BirthdayGreeter should', () => {
         when(friendRepository.findFriendsBornOn(deepEqual(MonthDay.now())))
             .thenReturn([aFriend]);
 
-        birthdayGreeter.sendGreetings(new SmsGreeting());
+        birthdayGreeter.sendGreetings(new SmsGreetingSender());
 
         const content = "To:" + aFriend.getPhoneNumber() + ", SMS: Happy birthday, my dear " + aFriend.getName() + "!";
         expect(printStream).toEqual(content);
@@ -48,7 +42,7 @@ describe('BirthdayGreeter should', () => {
         when(friendRepository.findFriendsBornOn(deepEqual(MonthDay.now())))
             .thenReturn([]);
 
-        birthdayGreeter.sendGreetings(new EmailGreeting());
+        birthdayGreeter.sendGreetings(new EmailGreetingSender());
 
         expect(printStream).toEqual('');
     });
