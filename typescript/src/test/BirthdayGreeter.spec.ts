@@ -7,7 +7,7 @@ import {Friend} from '../main/Friend';
 
 class SmsGreeting implements GreetingSender {
     greetingFor(friend: Friend) {
-        console.log('To:+33686898734, SMS: Happy birthday, my dear John!');
+        console.log(`To:${friend.getPhoneNumber()}, SMS: Happy birthday, my dear ${friend.getName()}!`);
     }
 }
 
@@ -57,7 +57,7 @@ describe('BirthdayGreeter should', () => {
         printStream = ''
         var oldLog = console.log;
         console.log = function (message) {
-            printStream += message
+            printStream = message
             oldLog.apply(console, arguments);
         };
     }
