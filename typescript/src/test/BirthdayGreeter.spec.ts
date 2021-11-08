@@ -36,12 +36,13 @@ describe('BirthdayGreeter should', () => {
         expect(printStream).toEqual('');
     });
 
+    const originalLog = console.log;
+
     function captureConsole(){
         printStream = ''
-        var oldLog = console.log;
         console.log = function (message) {
             printStream += message
-            oldLog.apply(console, arguments);
+            originalLog.apply(console, arguments);
         };
     }
 });
