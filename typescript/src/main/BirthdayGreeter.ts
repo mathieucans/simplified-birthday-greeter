@@ -9,16 +9,20 @@ export class BirthdayGreeter {
 
     }
 
-    sendGreetings() {
+    sendGreetings(emailGreeting: GreetingSender) {
         this.friendRepository.findFriendsBornOn(MonthDay.now())
             .forEach(friend => {
-                new EmailGreeting().greetingFor(friend);
+                emailGreeting.greetingFor(friend);
             });
     }
 
 }
 
-export class EmailGreeting {
+export interface GreetingSender {
+    greetingFor(friend: Friend) ;
+}
+
+export class EmailGreeting implements GreetingSender {
     greetingFor(friend: Friend) {
         const message = this.emailFor(friend);
         new EmailSender()
