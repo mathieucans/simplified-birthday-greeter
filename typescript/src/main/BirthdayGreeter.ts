@@ -1,6 +1,6 @@
-import {FriendRepository, MonthDay} from "./FriendRepository";
-import {Friend} from "./Friend";
-import {EmailSender} from "./EmailSender";
+import {FriendRepository, MonthDay} from './FriendRepository';
+import {Friend} from './Friend';
+import {EmailSender} from './EmailSender';
 
 export class BirthdayGreeter {
     constructor(
@@ -12,14 +12,20 @@ export class BirthdayGreeter {
     sendGreetings() {
         this.friendRepository.findFriendsBornOn(MonthDay.now())
             .forEach(friend => {
-                const message = this.emailFor(friend);
-                new EmailSender()
-                    .send(friend.getContact(), message);
+                new EmailGreeting().greetingFor(friend);
             });
     }
 
-    emailFor(friend: Friend) {
-        return `Happy birthday, dear ${friend.getName()}!`
+}
+
+export class EmailGreeting {
+    greetingFor(friend: Friend) {
+        const message = this.emailFor(friend);
+        new EmailSender()
+            .send(friend.getContact(), message);
     }
 
+    private emailFor(friend: Friend) {
+        return `Happy birthday, dear ${friend.getName()}!`
+    }
 }
