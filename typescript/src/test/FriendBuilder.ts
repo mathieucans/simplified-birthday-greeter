@@ -20,7 +20,6 @@ export class FriendBuilder {
         return this;
     }
 
-
     public withLastName(lastName: string): FriendBuilder {
         this.lastName = lastName;
         return this;
